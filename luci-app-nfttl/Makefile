@@ -9,7 +9,7 @@ PKG_LICENSE:=MIT
 
 LUCI_TITLE:=TTL Control
 LUCI_DESCRIPTION:=This LuCI app provides TTL packet rewriting functionality using nftables.
-LUCI_DEPENDS:=+luci-base +nftables +libnixio
+LUCI_DEPENDS:=+luci-base +nftables +luci-lib-nixio
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
