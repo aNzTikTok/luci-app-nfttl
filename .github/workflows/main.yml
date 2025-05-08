@@ -43,7 +43,7 @@ jobs:
 
       - name: Copy package to OpenWrt feed directory
         run: |
-          cp -R mymodem/luci-app-nfttl $HOME/openwrt/package/
+          cp -R luci-app-nfttl $HOME/openwrt/package/
 
       - name: Install OpenWrt build dependencies
         run: |
