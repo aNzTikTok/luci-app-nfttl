@@ -35,24 +35,26 @@ jobs:
 
       - name: Set up OpenWrt repository (24.10.0)
         run: |
-          git clone https://github.com/openwrt/openwrt.git /openwrt
-          cd /openwrt
+          # Clone OpenWrt into a directory with write permissions
+          mkdir -p $HOME/openwrt
+          git clone https://github.com/openwrt/openwrt.git $HOME/openwrt
+          cd $HOME/openwrt
           git checkout openwrt-24.10  # Set OpenWrt version to v24.10.0
 
       - name: Copy package to OpenWrt feed directory
         run: |
-          cp -R mymodem/luci-app-nfttl /openwrt/package/
+          cp -R mymodem/luci-app-nfttl $HOME/openwrt/package/
 
       - name: Install OpenWrt build dependencies
         run: |
-          cd /openwrt
+          cd $HOME/openwrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
           make defconfig
 
       - name: Build the OpenWrt package
         run: |
-          cd /openwrt
+          cd $HOME/openwrt
           make package/luci-app-nfttl/compile V=s
 
       - name: Upload IPK to GitHub Release
@@ -60,7 +62,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: /openwrt/bin/packages/*/luci-app-nfttl*.ipk
+          files: $HOME/openwrt/bin/packages/*/luci-app-nfttl*.ipk
 
   release:
     needs: build
@@ -71,4 +73,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: /openwrt/bin/packages/*/luci-app-nfttl*.ipk
+          files: $HOME/openwrt/bin/packages/*/luci-app-nfttl*.ipk
